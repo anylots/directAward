@@ -3,6 +3,10 @@
 
 const path = require("path");
 
+const overrides = {
+  gasLimit: 9999999
+}
+
 async function main() {
   // This is just a convenience check
   if (network.name === "hardhat") {
