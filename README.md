@@ -11,6 +11,8 @@ npx hardhat --network localhost run .\scripts\deployNFTPool.js
 
 ## How to call this contract
 
+- NFTPool ABI is located at https://github.com/anylots/directAward/blob/main/frontend/src/contracts/NFTPool.json
+
 - depositNFT
 ```sh
 Example of deposit doodles:
@@ -35,8 +37,6 @@ let NFTPool = new ethers.Contract(
 
 //depositNFT
 await NFTPool.depositNFT(doodles_address, 0);
-
-NFTPool ABI is located at https://github.com/anylots/directAward/tree/main/contracts
 ```
 
 - withdrawNFT
@@ -53,14 +53,12 @@ let NFTPool = new ethers.Contract(
 //depositNFT
 await NFTPool.withdrawNFT(doodles_address, 0);
 
-NFTPool ABI is located at https://github.com/anylots/directAward/blob/main/frontend/src/contracts/NFTPool.json
-
 NFTPool testnet address: Please contact the developer
 
- 
 ```
-- Or you can refer to the following link to complete the call
+- You can refer to the following link to complete the call
 https://github.com/anylots/directAward/blob/main/scripts/NFTPoolService.js
+
 
 
 **Happy _building_!**
