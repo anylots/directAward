@@ -56,6 +56,21 @@ await NFTPool.withdrawNFT(doodles_address, 0);
 NFTPool testnet address: Please contact the developer
 
 ```
+
+- AddSupportNFT(onlyOwner)
+```sh
+  let NFTPool = new ethers.Contract(
+    nftPool_address,
+    NFTPool_Artifact.abi,
+    wallet
+  );
+
+  let xnftAddress = await NFTPool.addNft(doodles_address, 'xDoodles');
+  console.log("addNfts complated,xaddress is:" + xaddress);
+
+  xnftAddress = await NFTPool.getXNftAddress(doodles_address);
+  console.log("xnftAddress is: " + xnftAddress);
+```
 - You can refer to the following link to complete the call
 https://github.com/anylots/directAward/blob/main/scripts/NFTPoolService.js
 
