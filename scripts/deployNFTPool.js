@@ -11,8 +11,8 @@ const path = require("path");
 
 async function main() {
 
-  // await deploy();
-  await initNFTPool();
+  await deploy();
+  // await initNFTPool();
 
 }
 
@@ -38,7 +38,7 @@ async function deploy() {
   console.log("nftPool address:", nftPool.address);
 
   // We also save the contract's artifacts and address in the frontend directory
-  // saveFrontendFiles(directAward);
+  saveFrontendFiles(nftPool);
 }
 
 async function initNFTPool() {
@@ -70,14 +70,14 @@ function saveFrontendFiles(contract) {
 
   fs.writeFileSync(
     path.join(contractsDir, "contract-address.json"),
-    JSON.stringify({ DirectAward: contract.address }, undefined, 2)
+    JSON.stringify({ NFTPool: contract.address }, undefined, 2)
   );
 
-  const DirectAward_Artifact = artifacts.readArtifactSync("DirectAward");
+  const NFTPool = artifacts.readArtifactSync("NFTPool");
 
   fs.writeFileSync(
-    path.join(contractsDir, "DirectAward.json"),
-    JSON.stringify(DirectAward_Artifact, null, 2)
+    path.join(contractsDir, "NFTPool.json"),
+    JSON.stringify(NFTPool, null, 2)
   );
 }
 
