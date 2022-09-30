@@ -2,13 +2,13 @@
 // yours, or create new ones.
 
 const NFTPool_Artifact = require("../artifacts/contracts/NFTPool/NFTPool.sol/NFTPool.json")
-const nftPool_address = '0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e';
+const nftPool_address = '0x959922bE3CAee4b8Cd9a407cc3ac1C251C2007B1';
 
 const XNFT_Artifact = require("../artifacts/contracts/NFTPool/XNFT.sol/XNFT.json")
 const xdoodles_address = '0x610178dA211FEF7D417bC0e6FeD39F05609AD788';
 
 const Doodles_Artifact = require("../artifacts/contracts/erc721/doodles/Doodles.sol/Doodles.json")
-const doodles_address = '0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9';
+const doodles_address = '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0';
 
 const path = require("path");
 

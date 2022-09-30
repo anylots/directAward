@@ -18,7 +18,7 @@ contract NFTPool is IERC721Receiver, Ownable {
     event WithdrawNFT(address indexed owner, address to, address indexed nftAsset, uint256 indexed id);
 
 
-    // Mapping from NFT address to aNFT address
+    // Mapping from NFT address to xNFT address
     mapping(address => address) internal nfts;
 
     /**
@@ -26,11 +26,12 @@ contract NFTPool is IERC721Receiver, Ownable {
      * @param nftAsset The address of the underlying nft used as collateral
      * 
      */
-    function addNft(address nftAsset, string memory xNftSymble) external onlyOwner {
+    function addNft(address nftAsset, string memory xNftSymble) external onlyOwner returns (address){
         require(nftAsset != address(0), "NFTPool: nftAsset is zero address");
 
-        XNFT xnft = new XNFT(address(this),nftAsset,xNftSymble,xNftSymble);
+        XNFT xnft = new XNFT(address(this), nftAsset, xNftSymble, xNftSymble);
         nfts[nftAsset] = address(xnft);
+        return address(xnft);
     }
 
     /**
@@ -46,7 +47,7 @@ contract NFTPool is IERC721Receiver, Ownable {
         );
         IERC721(nftAsset).safeTransferFrom(
             msg.sender,
-            address(this),
+            nfts[nftAsset],
             nftTokenId
         );
 
@@ -71,6 +72,15 @@ contract NFTPool is IERC721Receiver, Ownable {
 
         emit WithdrawNFT(msg.sender, address(this), nftAsset, nftTokenId);
 
+    }
+
+    /**
+     * @dev get Address of xNft
+     * @param nftAsset The address of the underlying nft used as collateral
+     **/
+    function getXNftAddress(address nftAsset) public view returns(address){
+        require(nftAsset != address(0), "NFTPool: nftAsset is zero address");
+        return nfts[nftAsset];
     }
 
     function onERC721Received(

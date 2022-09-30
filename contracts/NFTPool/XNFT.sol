@@ -9,7 +9,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 // We import this library to be able to use console.log
 import "hardhat/console.sol";
 
-contract XNFT is ERC721, ERC721Enumerable, Ownable {
+contract XNFT is ERC721, ERC721Enumerable, IERC721Receiver, Ownable {
   /*//////////////////////////////////////////////////////////////
                     NFTPool STORAGE
   //////////////////////////////////////////////////////////////*/
@@ -71,7 +71,7 @@ contract XNFT is ERC721, ERC721Enumerable, Ownable {
    * @param tokenId The tokenId of xnft getting minted
    */
   function mint(address user, uint256 tokenId) public onlyNftPool {
-    IERC721(_underlyingAsset).safeTransferFrom(user, address(this), tokenId);
+    //mint xnft to user
     _mint(user, tokenId);
   }
 
@@ -81,7 +81,23 @@ contract XNFT is ERC721, ERC721Enumerable, Ownable {
    * @param tokenId The tokenId of xnft getting burned
    **/
   function burn(address user, uint256 tokenId) public onlyNftPool {
-    IERC721(_underlyingAsset).safeTransferFrom(address(this), user, tokenId);
+    //burn user's xnft
     _burn(tokenId);
+
+    //transfer nft to user
+    IERC721(_underlyingAsset).safeTransferFrom(address(this), user, tokenId);
+  }
+
+  function onERC721Received(
+    address operator,
+    address from,
+    uint256 tokenId,
+    bytes calldata data
+  ) external pure override returns (bytes4) {
+    operator;
+    from;
+    tokenId;
+    data;
+    return IERC721Receiver.onERC721Received.selector;
   }
 }

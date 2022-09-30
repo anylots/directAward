@@ -3,9 +3,9 @@
 
 const NFTPool_Artifact = require("../artifacts/contracts/NFTPool/NFTPool.sol/NFTPool.json")
 const XNFT_Artifact = require("../artifacts/contracts/NFTPool/XNFT.sol/XNFT.json")
-const nftPool_address = '0x68B1D87F95878fE05B998F19b66F4baba5De1aed';
+const nftPool_address = '0x959922bE3CAee4b8Cd9a407cc3ac1C251C2007B1';
 const xdoodles_address = '0x9A9f2CCfdE556A7E9Ff0848998Aa4a0CFD8863AE';
-const doodles_address = '0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9';
+const doodles_address = '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0';
 
 const path = require("path");
 
@@ -26,10 +26,10 @@ async function deploy() {
   console.log("Account balance:", (await deployer.getBalance()).toString());
 
   //deploye xNft
-  const contract = await ethers.getContractFactory("XNFT");
-  const xNft = await contract.deploy("XDoodles", "XDoodles");
-  await xNft.deployed();
-  console.log("xNft address:", xNft.address);
+  // const contract = await ethers.getContractFactory("XNFT");
+  // const xNft = await contract.deploy("XDoodles", "XDoodles");
+  // await xNft.deployed();
+  // console.log("xNft address:", xNft.address);
 
   //deploye xNft
   const NFTPool = await ethers.getContractFactory("NFTPool");
@@ -53,8 +53,11 @@ async function initNFTPool() {
     wallet
   );
 
-  await NFTPool.addNfts(doodles_address, xdoodles_address);
-  console.log("addNfts complated");
+  let xaddress = await NFTPool.addNft(doodles_address, 'xDoodles');
+  console.log("addNfts complated,xaddress is:" + xaddress);
+
+  let xnftAddress = await NFTPool.getXNftAddress(doodles_address);
+  console.log("xnftAddress is: " + xnftAddress);
 }
 
 function saveFrontendFiles(contract) {

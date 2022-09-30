@@ -1,3 +1,6 @@
+const Doodles_Artifact = require("../artifacts/contracts/erc721/doodles/Doodles.sol/Doodles.json")
+
+
 // This is a script for deploying your contracts. You can adapt it to deploy
 // yours, or create new ones.
 async function main() {
@@ -31,8 +34,24 @@ async function main() {
 
   console.log("erc721 address:", erc721.address);
 
+  let Doodles = new ethers.Contract(
+    erc721.address,
+    Doodles_Artifact.abi,
+    deployer
+);
+
+await Doodles.setSaleState(true);
+console.log("setSaleState complated");
+
+await Doodles.mint(2, {
+  value: ethers.utils.parseEther("1"), gasLimit: 9999999,
+  gasPrice: 1000 * (10 ** 9)
+});
+
+console.log("mint complated");
+
   // We also save the contract's artifacts and address in the frontend directory
-  saveFrontendFiles(erc721);
+  // saveFrontendFiles(erc721);
 }
 
 function saveFrontendFiles(token) {
