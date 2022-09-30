@@ -50,7 +50,7 @@ let NFTPool = new ethers.Contract(
         NFTPool_Artifact.abi,
         wallet
 );
-//depositNFT
+//withdrawNFT
 await NFTPool.withdrawNFT(doodles_address, 0);
 
 NFTPool testnet address: Please contact the developer
