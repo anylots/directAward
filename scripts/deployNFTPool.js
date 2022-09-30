@@ -53,10 +53,10 @@ async function initNFTPool() {
     wallet
   );
 
-  let xaddress = await NFTPool.addNft(doodles_address, 'xDoodles');
+  let xnftAddress = await NFTPool.addNft(doodles_address, 'xDoodles');
   console.log("addNfts complated,xaddress is:" + xaddress);
 
-  let xnftAddress = await NFTPool.getXNftAddress(doodles_address);
+  xnftAddress = await NFTPool.getXNftAddress(doodles_address);
   console.log("xnftAddress is: " + xnftAddress);
 }
 
