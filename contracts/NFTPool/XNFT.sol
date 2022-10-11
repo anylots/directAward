@@ -17,6 +17,9 @@ contract XNFT is ERC721, ERC721Enumerable, IERC721Receiver, Ownable {
   address internal _nftPool;
   string private _baseURIextended;
 
+  string private _name;
+  string private _symbol;
+
   modifier onlyNftPool() {
     require(
       msg.sender == _nftPool,
@@ -34,6 +37,16 @@ contract XNFT is ERC721, ERC721Enumerable, IERC721Receiver, Ownable {
     string memory name_,
     string memory symbol_
   ) ERC721(name_, symbol_) {
+    _nftPool = nftPool;
+    _underlyingAsset = underlyingAsset;
+  }
+
+  function init(address nftPool,
+    address underlyingAsset,
+    string memory name_,
+    string memory symbol_)public{
+    _name = name_;
+    _symbol = symbol_;
     _nftPool = nftPool;
     _underlyingAsset = underlyingAsset;
   }
@@ -86,6 +99,20 @@ contract XNFT is ERC721, ERC721Enumerable, IERC721Receiver, Ownable {
 
     //transfer nft to user
     IERC721(_underlyingAsset).safeTransferFrom(address(this), user, tokenId);
+  }
+
+  /**
+   * @dev See {IERC721Metadata-name}.
+   */
+  function name() public view virtual override returns (string memory) {
+    return _name;
+  }
+
+  /**
+   * @dev See {IERC721Metadata-symbol}.
+   */
+  function symbol() public view virtual override returns (string memory) {
+    return _symbol;
   }
 
   function onERC721Received(
