@@ -9,17 +9,17 @@ import "./ERC721Enumerable.sol";
 
 contract Doodles is ERC721, ERC721Enumerable, Ownable {
     string public PROVENANCE;
-    bool public saleIsActive = false;
+    bool public saleIsActive = true;
     string private _baseURIextended;
 
     bool public isAllowListActive = false;
     uint256 public constant MAX_SUPPLY = 10000;
-    uint256 public constant MAX_PUBLIC_MINT = 5;
-    uint256 public constant PRICE_PER_TOKEN = 0.123 ether;
+    uint256 public constant MAX_PUBLIC_MINT = 10;
+    uint256 public constant PRICE_PER_TOKEN = 0 ether;
 
     mapping(address => uint8) private _allowList;
 
-    constructor() ERC721("Doodles", "Doodles") {
+    constructor() ERC721("JoyBoy", "JoyBoy") {
     }
 
     function setIsAllowListActive(bool _isAllowListActive) external onlyOwner {

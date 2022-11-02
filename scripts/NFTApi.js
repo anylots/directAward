@@ -1,7 +1,7 @@
 const NFT_Artifact = require("./erc721abi.json");
 // import Doodles_Artifact from "../artifacts/contracts/erc721/doodles/Doodles.sol/Doodles.json";
 const Doodles_Artifact = require("../artifacts/contracts/erc721/doodles/Doodles.sol/Doodles.json")
-const nft_address = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+const nft_address = '0x0f869D9855B9bC52012C538424A04c434fD3c393';
 
 const overrides = {
     gasLimit: 9999999,
@@ -10,7 +10,7 @@ const overrides = {
 
 async function main() {
 
-    await mint();
+    await transferFrom();
 }
 
 async function tokenOfOwnerByIndex() {
@@ -38,10 +38,18 @@ async function tokenOfOwnerByIndex() {
 
 
 async function mint() {
-    let privateKey = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
+    // let privateKey = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
+    let privateKey = "0x315bdde188acc16b06b41b3ccb06da359c2bbb5a60072b61aa13f907aaaeb782";
+    
     // Connect a wallet to localhost
     let customHttpProvider = new ethers.providers.JsonRpcProvider("http://localhost:8545");
-    let wallet = new ethers.Wallet(privateKey, customHttpProvider);
+
+    //goerli testnet
+    const provider = new ethers.providers.JsonRpcProvider(
+    'https://goerli.infura.io/v3/8890b0405f0e4de4b2e24a90767e9114'
+    );
+
+    let wallet = new ethers.Wallet(privateKey, provider);
 
     let NFT = new ethers.Contract(
         nft_address,
@@ -50,11 +58,36 @@ async function mint() {
     );
 
     //传入mint个数和支付金额，进行NFT的mint
-    await NFT.mint(2, {
-        value: ethers.utils.parseEther("1")
-    });
+    await NFT.mint(2);
 
     console.log("mint complated");
+}
+
+
+async function transferFrom() {
+    // let privateKey = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
+    let privateKey = "0x315bdde188acc16b06b41b3ccb06da359c2bbb5a60072b61aa13f907aaaeb782";
+    
+    // Connect a wallet to localhost
+    let customHttpProvider = new ethers.providers.JsonRpcProvider("http://localhost:8545");
+
+    //goerli testnet
+    const provider = new ethers.providers.JsonRpcProvider(
+    'https://goerli.infura.io/v3/8890b0405f0e4de4b2e24a90767e9114'
+    );
+
+    let wallet = new ethers.Wallet(privateKey, provider);
+
+    let NFT = new ethers.Contract(
+        nft_address,
+        NFT_Artifact.abi,
+        wallet
+    );
+
+    //传入mint个数和支付金额，进行NFT的mint
+    await NFT.transferFrom('0x193E70F5E72e838AdC6ee2A926C02979639D243d','0xd21af0508e13fc62dba4d1539a5dd8d89cf8df14','1');
+
+    console.log("transferFrom complated");
 }
 
 async function setSaleState() {
