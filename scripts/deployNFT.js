@@ -1,6 +1,7 @@
 const Doodles_Artifact = require("../artifacts/contracts/erc721/doodles/Doodles.sol/Doodles.json")
+const JoyBoySBT_Artifact = require("../artifacts/contracts/erc721/doodles/JoyBoySBT.sol/JoyBoySBT.json")
 
-
+//0xaEF708ec673bAE6f8B628C63CEd082cBfa39A54E
 // This is a script for deploying your contracts. You can adapt it to deploy
 // yours, or create new ones.
 async function main() {
@@ -34,24 +35,24 @@ async function main() {
 
   console.log("Account balance:", (await deployer.getBalance()).toString());
 
-  const ERC721 = await ethers.getContractFactory("Doodles");
+  const ERC721 = await ethers.getContractFactory("JoyBoySBT");
   const erc721 = await ERC721.deploy();
   await erc721.deployed();
 
   console.log("erc721 address:", erc721.address);
 
-  let Doodles = new ethers.Contract(
-    erc721.address,
-    Doodles_Artifact.abi,
-    deployer
-  );
+  // let Doodles = new ethers.Contract(
+  //   erc721.address,
+  //   JoyBoySBT_Artifact.abi,
+  //   deployer
+  // );
 
   // await Doodles.setSaleState(true);
   // console.log("setSaleState complated");
 
-  await Doodles.mint(2);
+  // await Doodles.mint(2);
 
-  console.log("mint complated");
+  // console.log("mint complated");
 
   // We also save the contract's artifacts and address in the frontend directory
   // saveFrontendFiles(erc721);

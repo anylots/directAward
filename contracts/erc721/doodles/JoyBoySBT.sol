@@ -7,17 +7,17 @@ import "./ERC721.sol";
 import "./Ownable.sol";
 import "./ERC721Enumerable.sol";
 
-contract Doodles is ERC721, ERC721Enumerable, Ownable {
+contract JoyBoySBT is ERC721, ERC721Enumerable, Ownable {
     string public PROVENANCE;
     bool public saleIsActive = true;
     string private _baseURIextended;
 
-    bool public isAllowListActive = false;
+    bool public isAllowListActive = true;
     uint256 public constant MAX_SUPPLY = 10000;
-    uint256 public constant MAX_PUBLIC_MINT = 10;
+    uint256 public constant MAX_PUBLIC_MINT = 1;
     uint256 public constant PRICE_PER_TOKEN = 0 ether;
 
-    mapping(address => uint8) private _allowList;
+    mapping(address => bool) private _allowList;
 
     constructor() ERC721("JoyBoySBT", "JoyBoySBT") {
     }
@@ -26,27 +26,24 @@ contract Doodles is ERC721, ERC721Enumerable, Ownable {
         isAllowListActive = _isAllowListActive;
     }
 
-    function setAllowList(address[] calldata addresses, uint8 numAllowedToMint) external onlyOwner {
+    function setAllowList(address[] calldata addresses) external onlyOwner {
         for (uint256 i = 0; i < addresses.length; i++) {
-            _allowList[addresses[i]] = numAllowedToMint;
+            _allowList[addresses[i]] = true;
         }
     }
 
-    function numAvailableToMint(address addr) external view returns (uint8) {
+    function availableToMint(address addr) external view returns (bool) {
         return _allowList[addr];
     }
 
-    function mintAllowList(uint8 numberOfTokens) external payable {
+    function mintAllowList() external payable {
         uint256 ts = totalSupply();
         require(isAllowListActive, "Allow list is not active");
-        require(numberOfTokens <= _allowList[msg.sender], "Exceeded max available to purchase");
-        require(ts + numberOfTokens <= MAX_SUPPLY, "Purchase would exceed max tokens");
-        require(PRICE_PER_TOKEN * numberOfTokens <= msg.value, "Ether value sent is not correct");
+        require(_allowList[msg.sender]==true, "Not in allowList");
+        require(ts + 1 <= MAX_SUPPLY, "Purchase would exceed max tokens");
+        // require(PRICE_PER_TOKEN <= msg.value, "Ether value sent is not correct");
 
-        _allowList[msg.sender] -= numberOfTokens;
-        for (uint256 i = 0; i < numberOfTokens; i++) {
-            _safeMint(msg.sender, ts + i);
-        }
+        _safeMint(msg.sender, ts);
     }
 
     function _beforeTokenTransfer(address from, address to, uint256 tokenId) internal override(ERC721, ERC721Enumerable) {
@@ -81,9 +78,9 @@ contract Doodles is ERC721, ERC721Enumerable, Ownable {
         saleIsActive = newState;
     }
 
-    function mint(uint numberOfTokens) public payable{
+    function mint(uint numberOfTokens) public payable onlyOwner{
         uint256 ts = totalSupply();
-        require(saleIsActive, "Sale must be active to mint tokens");
+        // require(saleIsActive, "Sale must be active to mint tokens");
         require(numberOfTokens <= MAX_PUBLIC_MINT, "Exceeded max token purchase");
         require(ts + numberOfTokens <= MAX_SUPPLY, "Purchase would exceed max tokens");
         require(PRICE_PER_TOKEN * numberOfTokens <= msg.value, "Ether value sent is not correct");
